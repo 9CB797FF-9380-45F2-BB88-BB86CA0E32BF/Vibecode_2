@@ -1,0 +1,37 @@
+# Task ID: 5
+# Title: Dynamic Volume Estimation (Reference-based)
+# Status: pending
+# Dependencies: 4
+# Priority: medium
+# Description: Implement the logic to estimate the real-world volume of detected objects using the calibrated `mm/pixel` ratio obtained from reference objects.
+# Details:
+Apply the `mm/pixel` factor to the pixel dimensions of detected objects' bounding boxes to get real-world dimensions. Implement a simplified volume estimation (e.g., assuming objects are cuboids or cylinders, requiring an estimated depth/height ratio based on class).
+
+# Test Strategy:
+With a reference object present, place other objects of known dimensions; compare estimated volumes to actual volumes. Refine depth estimation heuristics.
+
+# Subtasks:
+## 1. Design User Database Schema [pending]
+### Dependencies: None
+### Description: Define the database table structure for storing user information, including fields for email, hashed password, and user roles.
+### Details:
+Use PostgreSQL. Fields should include `id` (PK, UUID), `email` (unique, NOT NULL), `password_hash` (NOT NULL), `created_at`, `updated_at`, `role` (e.g., 'user', 'admin'). Consider indexing `email` for performance.
+
+## 2. Implement User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint that allows new users to register with an email and password. This involves password hashing and storing user data in the database.
+### Details:
+Use Node.js with Express. Endpoint: `POST /api/register`. Hash passwords using bcrypt. Validate email format and password strength (e.g., minimum length, special characters). Return a success message or appropriate error.
+
+## 3. Implement User Login API Endpoint with JWT [pending]
+### Dependencies: None
+### Description: Create an API endpoint for user login. Authenticate users by verifying their email and password, then generate and return a JWT upon successful login.
+### Details:
+Use Node.js with Express. Endpoint: `POST /api/login`. Compare provided password with stored hash using bcrypt. If valid, generate a JWT containing user ID and role, sign it with a secret key, and set an expiration. Return the JWT in the response body.
+
+## 4. Implement JWT Authentication Middleware [pending]
+### Dependencies: None
+### Description: Develop a middleware function to protect API routes by verifying the presence and validity of a JWT in the request header.
+### Details:
+Use Node.js with Express. The middleware should extract the JWT from the `Authorization` header (Bearer token). Verify the token's signature and expiration. If valid, attach user information (e.g., `req.user`) to the request object and call `next()`. If invalid or missing, return a 401 Unauthorized error.
+

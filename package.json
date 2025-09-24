@@ -12,7 +12,8 @@
     "next": "15.5.4",
     "pnpm": "^10.17.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "task-master-ai": "^0.26.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

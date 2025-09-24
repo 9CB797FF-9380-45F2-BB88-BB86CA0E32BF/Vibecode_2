@@ -1,0 +1,25 @@
+# Task ID: 9
+# Title: Internal Data Management: Non-Food Calorie & Density Data
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Design and populate an internal data structure to store reference object sizes, object-material mappings, and material-specific theoretical calories per gram and average densities.
+# Details:
+Create a `data.js` or `data.json` file containing: 1) Known dimensions of reference objects. 2) A mapping from non-food object classes (e.g., 'bottle') to material types (e.g., 'plastic'). 3) Material properties (e.g., 'plastic': { density: X g/cm³, theoretical_calories_per_g: Y kcal/g }).
+
+# Test Strategy:
+Verify data structure is accessible and correctly populated. Query for specific material properties and object-material mappings.
+
+# Subtasks:
+## 1. Design and Implement User Database Schema [pending]
+### Dependencies: None
+### Description: Create the necessary database table(s) to store user information, including credentials and profile data, using a database migration script.
+### Details:
+The 'users' table should include columns for 'id' (primary key, UUID), 'email' (unique, indexed), 'hashed_password' (string), 'created_at' (timestamp), and 'updated_at' (timestamp). Use a migration tool like Alembic or Flyway to manage the schema.
+
+## 2. Develop User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Create a public API endpoint (e.g., POST /api/auth/register) that allows new users to sign up by providing an email and password.
+### Details:
+The endpoint should accept a JSON body with 'email' and 'password'. It must validate the input (e.g., valid email format, password complexity). Hash the password using a strong algorithm like bcrypt before storing it in the database. Return a JWT or session token upon successful registration.
+

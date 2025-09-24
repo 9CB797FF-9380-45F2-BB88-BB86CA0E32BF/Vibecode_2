@@ -1,0 +1,43 @@
+# Task ID: 8
+# Title: External API Integration: Food Calorie Data (식품의약품안전처)
+# Status: pending
+# Dependencies: 7
+# Priority: high
+# Description: Implement the client-side (or proxy server-side) module to interact with the 식품의약품안전처_식품영양성분DB API to fetch 100g-based nutritional information for food items.
+# Details:
+Write a utility function to make API requests to the 식품의약품안전처 API. Handle API keys, request parameters (e.g., food name), and parse the JSON response to extract calories, carbs, protein, and fat per 100g. Implement basic caching for frequently requested items.
+
+# Test Strategy:
+Call the API with known food names; verify correct nutritional data is retrieved. Test error handling for API failures or unknown food items.
+
+# Subtasks:
+## 1. Design Database Schema for Users [pending]
+### Dependencies: None
+### Description: Define the database table structure for storing user information, including fields for username, email, password hash, and roles.
+### Details:
+Create a `users` table with columns: `id (PK, UUID)`, `username (VARCHAR, unique)`, `email (VARCHAR, unique)`, `password_hash (VARCHAR)`, `role (ENUM: 'user', 'admin')`, `created_at (TIMESTAMP)`, `updated_at (TIMESTAMP)`. Consider indexes on `username` and `email`.
+
+## 2. Implement User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`/api/register`) that allows new users to sign up, hashing their password before storing it in the database.
+### Details:
+Endpoint: `POST /api/register`. Request body: `{username, email, password}`. Use bcrypt for password hashing. Implement input validation for username (min length, alphanumeric), email (valid format), and password (min length, complexity). Return 201 Created on success, 400 for invalid input, 409 for duplicate username/email.
+
+## 3. Implement User Login and JWT Generation API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`/api/login`) that authenticates users and issues a JSON Web Token (JWT) upon successful login.
+### Details:
+Endpoint: `POST /api/login`. Request body: `{username_or_email, password}`. Verify password against the stored hash. If successful, generate a JWT containing `userId` and `role`, sign it with a secret key, set an expiration (e.g., 1h), and return it in the response body. Return 401 Unauthorized for incorrect credentials.
+
+## 4. Develop JWT Authentication Middleware [pending]
+### Dependencies: None
+### Description: Create a middleware function that verifies the JWT from incoming requests and attaches user information to the request object for protected routes.
+### Details:
+Middleware should extract the JWT from the `Authorization: Bearer <token>` header. Verify the token's signature using the secret key and check its expiration. If valid, decode the payload and attach `req.user = {id, role}`. If invalid, missing, or expired, return 401 Unauthorized or 403 Forbidden.
+
+## 5. Create Protected Example API Endpoint [pending]
+### Dependencies: None
+### Description: Implement a simple API endpoint that requires JWT authentication to demonstrate the middleware's functionality.
+### Details:
+Endpoint: `GET /api/protected`. Apply the JWT authentication middleware to this route. The endpoint should return a message like 'Welcome, {username}!' or 'You are an {role}!' using the user information available from `req.user` after successful authentication.
+

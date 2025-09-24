@@ -1,0 +1,37 @@
+# Task ID: 1
+# Title: Project Initialization & Basic WebRTC Setup
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Set up the foundational web project structure (HTML, CSS, JavaScript) and implement WebRTC's getUserMedia API to access and display the camera stream. Ensure basic responsive design for mobile and desktop browsers.
+# Details:
+Initialize `index.html`, `style.css`, and `main.js`. Implement camera access, handle user permissions, and display the video feed in a `<video>` element. Add basic UI elements for camera control (e.g., start/stop).
+
+# Test Strategy:
+Verify camera stream displays correctly on various devices/browsers. Check responsive layout by resizing the browser window and on mobile emulators.
+
+# Subtasks:
+## 1. Create basic HTML structure with video element [done]
+### Dependencies: None
+### Description: Create index.html with basic structure including video element for camera stream display
+### Details:
+Create index.html with DOCTYPE, html, head, and body tags. Add a video element with id 'video' for displaying camera stream. Include basic meta tags for responsive design and viewport settings.
+
+## 2. Create CSS styles for responsive layout [done]
+### Dependencies: None
+### Description: Create style.css with responsive design for mobile and desktop browsers
+### Details:
+Create style.css with basic styling for video element, buttons, and responsive layout. Ensure the video element scales properly on different screen sizes and the layout works on both mobile and desktop.
+
+## 3. Implement getUserMedia API for camera access [done]
+### Dependencies: None
+### Description: Implement JavaScript code to request camera access using getUserMedia API
+### Details:
+Create main.js with function to request camera access using navigator.mediaDevices.getUserMedia(). Handle user permissions and display the camera stream in the video element. Include proper error handling for permission denied or camera not available.
+
+## 4. Add camera control buttons and UI [done]
+### Dependencies: None
+### Description: Add start/stop camera buttons and basic UI controls
+### Details:
+Add HTML buttons for starting and stopping the camera stream. Implement JavaScript event handlers for these buttons. Add status indicators to show camera state (loading, active, error). Include proper cleanup when stopping the stream.
+

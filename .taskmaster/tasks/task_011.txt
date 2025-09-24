@@ -1,0 +1,37 @@
+# Task ID: 11
+# Title: Calorie Calculation (Non-Food/Living Items)
+# Status: pending
+# Dependencies: 5, 6, 9
+# Priority: high
+# Description: Calculate theoretical total calories for non-food and living objects using estimated volume, object-material mapping, and material-specific density and theoretical calories per gram from internal data.
+# Details:
+For non-food/living objects, use the estimated volume (from Task 5 or 6), map the object class to a material (from Task 9), and retrieve the material's density and theoretical calories per gram. Calculate total weight and then theoretical total calories. Display 'N/A' for nutrients.
+
+# Test Strategy:
+Detect a non-food item, estimate its volume, and apply material data. Verify theoretical calorie calculation is correct and nutrients show 'N/A'.
+
+# Subtasks:
+## 1. Design and Implement User Database Schema [pending]
+### Dependencies: None
+### Description: Create the necessary database table(s) to store user information, including credentials and profile data, using a migration tool.
+### Details:
+Create a 'users' table with columns: 'id' (primary key, auto-increment), 'email' (unique, not null), 'password_hash' (not null), 'created_at', and 'updated_at'. Use a database migration tool like Alembic or Flyway to script and apply this schema change.
+
+## 2. Develop User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Implement a public API endpoint (e.g., POST /api/auth/register) that allows new users to create an account.
+### Details:
+The endpoint should accept an email and password. It must validate the input (e.g., password strength, valid email format), check if the email already exists, hash the password using bcrypt, and store the new user record in the database. On success, return a 201 Created status. On failure, return appropriate error codes (e.g., 400 for bad input, 409 for conflict).
+
+## 3. Develop User Login API Endpoint [pending]
+### Dependencies: None
+### Description: Implement a public API endpoint (e.g., POST /api/auth/login) for users to authenticate and receive a JSON Web Token (JWT).
+### Details:
+The endpoint should accept an email and password. It will retrieve the user from the database by email, compare the provided password with the stored hash using bcrypt's compare function, and if they match, generate a signed JWT. The JWT payload should include the user ID and an expiration claim. Return the JWT in the response body.
+
+## 4. Implement JWT Authentication Middleware [pending]
+### Dependencies: None
+### Description: Create a middleware to protect specific API routes, ensuring they are only accessible by requests with a valid JWT.
+### Details:
+The middleware should extract the JWT from the 'Authorization: Bearer <token>' header. It must verify the token's signature and expiration. If the token is valid, decode the payload to identify the user and attach the user's identity to the request context for downstream handlers. If the token is missing, invalid, or expired, the middleware must abort the request and return a 401 Unauthorized response.
+

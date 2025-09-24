@@ -1,0 +1,43 @@
+# Task ID: 4
+# Title: Reference Object Recognition & Pixel-to-MM Calibration
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Develop logic to identify pre-defined reference objects (e.g., credit card, A4 paper) within the detected objects and calculate a real-world `mm/pixel` ratio based on their known dimensions.
+# Details:
+Define known dimensions for reference objects (e.g., credit card: 85.6mm x 53.98mm). When a reference object is detected by the AI model, calculate its pixel dimensions from the bounding box and derive the `mm/pixel` conversion factor. Store this factor globally.
+
+# Test Strategy:
+Place a reference object in front of the camera; verify the system correctly identifies it and calculates a consistent `mm/pixel` ratio. Test with different distances and angles.
+
+# Subtasks:
+## 1. Design Database Schema for User Authentication [pending]
+### Dependencies: None
+### Description: Define the database table structure required to store user credentials, roles, and session information for the authentication module.
+### Details:
+Consider fields like `user_id`, `username`, `email`, `password_hash`, `salt`, `role_id`, `created_at`, `updated_at`, `last_login`. Ensure appropriate data types, constraints, and indexing for performance and security. Plan for potential future fields like `is_active` or `two_factor_enabled`.
+
+## 2. Implement User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Develop the backend API endpoint responsible for handling new user registrations, including input validation and secure password hashing.
+### Details:
+Create a POST endpoint (e.g., `/api/register`) that accepts username, email, and password. Implement strong input validation (e.g., email format, password strength). Use a robust hashing algorithm (e.g., bcrypt, Argon2) with a unique salt for each user. Store the hashed password and user details in the database. Handle duplicate username/email errors gracefully.
+
+## 3. Implement User Login API Endpoint [pending]
+### Dependencies: None
+### Description: Create the backend API endpoint for user authentication, verifying credentials and generating an authentication token upon successful login.
+### Details:
+Develop a POST endpoint (e.g., `/api/login`) that accepts username/email and password. Retrieve the user's stored password hash and salt from the database. Compare the provided password with the stored hash using the same hashing algorithm. If credentials are valid, generate a secure JWT (JSON Web Token) containing user ID and roles. Return the JWT to the client. Handle invalid credentials with appropriate error responses.
+
+## 4. Develop JWT Token Generation and Validation Module [pending]
+### Dependencies: None
+### Description: Build a dedicated module or service for generating, signing, and validating JSON Web Tokens (JWTs) used for session management.
+### Details:
+Implement functions to: 1) Generate a JWT with a configurable payload (e.g., `user_id`, `roles`, `exp`, `iat`). 2) Sign the JWT using a secure secret key (e.g., HMAC-SHA256). 3) Validate an incoming JWT, checking its signature, expiration, and issuer. Handle token expiration and malformed tokens. Consider refresh token mechanisms if required.
+
+## 5. Integrate Authentication Middleware for Protected Routes [pending]
+### Dependencies: None
+### Description: Implement and apply an authentication middleware to secure specific API routes, ensuring only authenticated and authorized users can access them.
+### Details:
+Create a middleware function that intercepts incoming requests. It should extract the JWT from the request header (e.g., `Authorization: Bearer <token>`). Use the JWT validation module (from subtask 4) to verify the token. If valid, decode the token, attach user information (e.g., `user_id`, `roles`) to the request object, and pass control to the next handler. If invalid or missing, return a 401 Unauthorized or 403 Forbidden response. Apply this middleware to all routes requiring authentication.
+

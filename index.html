@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI 실시간 객체 칼로리 추정 서비스 - 웹 카메라를 통한 실시간 객체 인식 및 칼로리 추정">
+    <title>AI 실시간 객체 칼로리 추정 서비스</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- TensorFlow.js Core -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    
+    <!-- TensorFlow.js WebGL Backend for GPU acceleration -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@latest/dist/tf-backend-webgl.min.js"></script>
+    
+    <!-- TensorFlow.js AutoML for object detection -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-automl@latest/dist/tf-automl.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI 실시간 객체 칼로리 추정 서비스</h1>
+            <p>웹 카메라를 통해 실시간으로 객체를 인식하고 칼로리를 추정합니다</p>
+        </header>
+
+        <main>
+            <div class="camera-section">
+                <div class="video-container">
+                    <video id="video" autoplay muted playsinline></video>
+                    <canvas id="canvas"></canvas>
+                </div>
+                
+                <div class="controls">
+                    <button id="startButton" class="btn btn-primary">카메라 시작</button>
+                    <button id="stopButton" class="btn btn-secondary" disabled>카메라 중지</button>
+                </div>
+                
+                <!-- 객체 탐지 컨트롤 -->
+                <div id="detectionControls" class="detection-controls" style="display: none;">
+                    <h3>객체 탐지 설정</h3>
+                    
+                    <div class="control-group">
+                        <label for="confidenceSlider">신뢰도 임계값: <span id="confidenceValue">50</span>%</label>
+                        <input type="range" id="confidenceSlider" min="10" max="90" value="50" class="slider">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="detectionIntervalSlider">탐지 주기: <span id="detectionIntervalValue">100</span>ms</label>
+                        <input type="range" id="detectionIntervalSlider" min="50" max="500" value="100" class="slider">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="maxDetectionsSlider">최대 탐지 수: <span id="maxDetectionsValue">20</span></label>
+                        <input type="range" id="maxDetectionsSlider" min="5" max="50" value="20" class="slider">
+                    </div>
+                    
+                    <div class="control-group">
+                        <button id="toggleDetectionButton" class="btn btn-toggle">탐지 일시정지</button>
+                    </div>
+                    
+                    <div class="detection-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">FPS:</span>
+                            <span id="detectionFps" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">탐지된 객체:</span>
+                            <span id="detectedObjects" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">보정 상태:</span>
+                            <span id="calibrationStatus" class="stat-value not-calibrated">준비 안됨</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">측정 비율 (mm/px):</span>
+                            <span id="calibrationValue" class="stat-value">N/A</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="status">
+                    <div id="statusMessage" class="status-message">카메라를 시작하려면 버튼을 클릭하세요</div>
+                    
+                    <!-- AI 모델 로딩 상태 표시 -->
+                    <div id="modelLoadingSection" class="model-loading-section" style="display: none;">
+                        <div class="loading-header">
+                            <h3>AI 모델 로딩</h3>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div id="modelProgressBar" class="progress-fill"></div>
+                            </div>
+                            <div id="modelProgressText" class="progress-text">0%</div>
+                        </div>
+                        <div id="modelStatusText" class="model-status-text">모델 로딩 준비 중...</div>
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>사용 방법</h2>
+                <ol>
+                    <li>카메라 시작 버튼을 클릭하여 카메라 접근 권한을 허용하세요</li>
+                    <li>카메라 앞에 음식이나 사물을 놓으세요</li>
+                    <li>AI가 자동으로 객체를 인식하고 칼로리를 추정합니다</li>
+                </ol>
+                
+                <div class="privacy-notice">
+                    <h3>개인정보 보호</h3>
+                    <p>모든 이미지 처리는 로컬에서 이루어지며, 서버로 전송되지 않습니다.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 AI 실시간 객체 칼로리 추정 서비스</p>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

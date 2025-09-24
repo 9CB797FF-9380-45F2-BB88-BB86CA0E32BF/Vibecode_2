@@ -1,0 +1,37 @@
+# Task ID: 10
+# Title: Calorie & Nutrient Calculation (Food Items)
+# Status: pending
+# Dependencies: 5, 6, 8
+# Priority: high
+# Description: Combine the estimated volume, average food density, and 100g nutritional data from the external API to calculate total calories and macronutrients for detected food items.
+# Details:
+For food objects, use the estimated volume (from Task 5 or 6) and an assumed average food density (e.g., 1 g/cm³ or specific density from API/internal data) to calculate total weight. Then, use the 100g nutritional data from Task 8 to scale and calculate total calories, carbs, protein, and fat.
+
+# Test Strategy:
+Detect a food item, estimate its volume, and fetch API data. Verify the final calorie and nutrient calculations are mathematically correct.
+
+# Subtasks:
+## 1. Design Database Schema for User Management [pending]
+### Dependencies: None
+### Description: Define the database tables, columns, data types, and relationships necessary to store user information, including authentication credentials and profile details.
+### Details:
+Create a `users` table with fields like `id`, `username` (unique), `email` (unique), `password_hash`, `created_at`, `updated_at`. Consider indexing `username` and `email` for performance. Decide on the hashing algorithm (e.g., bcrypt) and its storage requirements.
+
+## 2. Develop User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Implement a RESTful API endpoint (`POST /register`) that handles new user sign-ups, including input validation, password hashing, and saving user data to the database.
+### Details:
+The endpoint should accept `username`, `email`, and `password`. Implement server-side validation for email format, password strength, and uniqueness of username/email. Hash the password using the chosen algorithm before storing. Return a success response with user ID or an appropriate error message.
+
+## 3. Develop User Login API Endpoint [pending]
+### Dependencies: None
+### Description: Create a RESTful API endpoint (`POST /login`) that authenticates users based on their credentials and generates an authentication token upon successful login.
+### Details:
+The endpoint should accept `username` (or `email`) and `password`. Retrieve the user's stored password hash and compare it with the provided password. If authenticated, generate a JSON Web Token (JWT) containing relevant user information (e.g., user ID, roles) and return it. Handle invalid credentials with appropriate error responses.
+
+## 4. Implement Authentication Middleware/Guard [pending]
+### Dependencies: None
+### Description: Develop a middleware or guard function that verifies authentication tokens on protected routes, ensuring only authenticated users can access specific resources.
+### Details:
+The middleware should extract the JWT from the `Authorization` header. Verify the token's signature and expiration. If valid, decode the token, extract user information, and attach it to the request object for subsequent route handlers. If invalid or missing, return a 401 Unauthorized error.
+

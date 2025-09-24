@@ -1,0 +1,37 @@
+# Task ID: 12
+# Title: AR Visualization - Label Rendering
+# Status: pending
+# Dependencies: 10, 11
+# Priority: high
+# Description: Implement a system to create and manage HTML/CSS-based AR labels for each detected object, displaying its name, estimated calories, and macronutrients.
+# Details:
+For each detected object, dynamically create a `div` element. Populate it with the required text: `[Object Name], [Estimated Calorie] kcal, Carb: Xg, Protein: Yg, Fat: Zg`. Style these labels using CSS to be readable and visually distinct. Position them initially at the center of the bounding box.
+
+# Test Strategy:
+Detect multiple objects; verify that a label appears for each, displaying the correct information and basic styling.
+
+# Subtasks:
+## 1. Initialize project and define API routes [pending]
+### Dependencies: None
+### Description: Set up the basic project structure, install necessary dependencies (e.g., Express, Mongoose/Sequelize), and define initial API routes for authentication.
+### Details:
+Use Node.js with Express. Create `src/app.js`, `src/routes/auth.js`, `src/controllers/auth.js`. Define a base `/api/v1/auth` route. Configure environment variables for database connection and JWT secret.
+
+## 2. Develop user registration endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`POST /api/v1/auth/register`) that allows new users to register with a username, email, and password. Store hashed passwords in the database.
+### Details:
+Use `bcrypt` for password hashing. Implement input validation for email format, password strength (min length, special chars), and uniqueness of email/username. Store user data in a MongoDB collection (or equivalent SQL table).
+
+## 3. Implement user login and JWT issuance [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`POST /api/v1/auth/login`) that authenticates users based on email/username and password. Upon successful authentication, generate and return a JSON Web Token (JWT).
+### Details:
+Use `jsonwebtoken` library. JWT should contain user ID and role. Set an expiration time for the token (e.g., 1 hour). Securely compare provided password with the stored hashed password using `bcrypt.compare()`. Handle incorrect credentials gracefully.
+
+## 4. Create a protected API route using JWT middleware [pending]
+### Dependencies: None
+### Description: Develop a middleware function to verify JWTs from incoming requests. Apply this middleware to a sample protected route (e.g., `GET /api/v1/user/profile`) to ensure only authenticated users can access it.
+### Details:
+The middleware should extract the token from the `Authorization` header (Bearer token format). Use `jsonwebtoken.verify()` to verify its signature and expiration. If valid, attach the decoded user payload to the request object (`req.user`). If invalid or missing, return appropriate HTTP error codes (401 Unauthorized, 403 Forbidden).
+

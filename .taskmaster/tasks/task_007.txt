@@ -1,0 +1,25 @@
+# Task ID: 7
+# Title: Object Type Classification (Food/Non-Food/Living)
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Develop a classification system to categorize detected objects as 'food', 'non-food/material', or 'living organism' based on their class name from the object detection model.
+# Details:
+Create a mapping (e.g., `objectClassToType.json`) that assigns a type to each COCO-SSD class name. This will determine which calorie calculation logic to use. Handle unknown classes gracefully.
+
+# Test Strategy:
+Detect various objects (e.g., 'apple', 'cup', 'person'); verify they are correctly classified into 'food', 'non-food', or 'living' categories.
+
+# Subtasks:
+## 1. Develop User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Create a public API endpoint for new users to register for an account. This involves validating user input, hashing the password, and storing the new user record in the database.
+### Details:
+Create a `POST /api/auth/register` endpoint. It should accept a JSON payload with `username`, `email`, and `password`. Implement validation: `email` must be unique and in a valid format, `password` must meet complexity requirements (e.g., 8+ characters). Use a strong hashing algorithm like bcrypt to hash the password before saving it to the 'users' table. On success, return a 201 Created status with the new user's ID and username.
+
+## 2. Develop User Login API Endpoint and JWT Generation [pending]
+### Dependencies: None
+### Description: Create a public API endpoint for existing users to log in. This involves verifying credentials and issuing a JSON Web Token (JWT) for session management.
+### Details:
+Create a `POST /api/auth/login` endpoint. It should accept `email` and `password`. Find the user by email. If found, compare the provided password with the stored hash using bcrypt. If they match, generate a signed JWT containing the user's ID and role as the payload. The token should have a reasonable expiration time (e.g., 1 hour). Return a 200 OK status with the JWT. For failed attempts (user not found or password mismatch), return a 401 Unauthorized status.
+

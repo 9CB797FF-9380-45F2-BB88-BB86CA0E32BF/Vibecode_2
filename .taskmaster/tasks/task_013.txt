@@ -1,0 +1,37 @@
+# Task ID: 13
+# Title: AR Visualization - Real-time Label Positioning & Tracking
+# Status: pending
+# Dependencies: 12
+# Priority: high
+# Description: Dynamically position and track AR labels over their respective bounding boxes in real-time as objects move within the camera frame, ensuring smooth updates.
+# Details:
+Update the CSS `transform` or `top`/`left` properties of the AR label `div` elements in each frame based on the latest bounding box coordinates. Implement smoothing or interpolation for label movement to prevent jitter. Consider using CSS 3D transforms for better performance and perspective.
+
+# Test Strategy:
+Move objects around in the camera view; verify labels stay attached to their objects and move smoothly without significant lag or flickering.
+
+# Subtasks:
+## 1. Design User Database Schema [pending]
+### Dependencies: None
+### Description: Define the database schema for storing user information, including fields for username, email, password hash, and roles.
+### Details:
+Use a relational database (e.g., PostgreSQL). Fields should include `id (PK)`, `username (unique)`, `email (unique)`, `password_hash`, `created_at`, `updated_at`, `is_active (boolean)`. Consider indexing `username` and `email` for performance.
+
+## 2. Develop User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`/api/register`) that allows new users to register by providing a username, email, and password. The password must be securely hashed before storage.
+### Details:
+Implement a POST request handler. Use a strong password hashing algorithm (e.g., bcrypt, Argon2). Validate input for format, uniqueness (username, email), and complexity. Return appropriate success/error responses (e.g., 201 Created, 400 Bad Request).
+
+## 3. Implement User Login and JWT Generation Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`/api/login`) that authenticates users based on username/email and password, and if successful, generates and returns a JSON Web Token (JWT).
+### Details:
+Implement a POST request handler. Compare provided password with stored hash. If credentials are valid, generate a JWT containing user ID and roles. Set an appropriate expiration time for the token (e.g., 1 hour). Return the JWT in the response body.
+
+## 4. Develop JWT Verification Middleware [pending]
+### Dependencies: None
+### Description: Create a middleware function that intercepts protected API routes, verifies the presence and validity of a JWT in the request header, and attaches user information to the request object if valid.
+### Details:
+The middleware should extract the token from the `Authorization` header (Bearer token). Verify the token's signature using the secret key and check its expiration. If valid, decode the payload and attach user data (e.g., `req.user = { id: ..., roles: ... }`). Handle invalid, expired, or missing tokens with appropriate error responses (e.g., 401 Unauthorized, 403 Forbidden).
+

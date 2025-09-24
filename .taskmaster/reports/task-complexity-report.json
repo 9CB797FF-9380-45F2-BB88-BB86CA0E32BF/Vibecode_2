@@ -1,0 +1,133 @@
+{
+	"meta": {
+		"generatedAt": "2025-09-24T02:01:04.019Z",
+		"tasksAnalyzed": 15,
+		"totalTasks": 15,
+		"analysisCount": 15,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": false
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Project Initialization & Basic WebRTC Setup",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Implement the basic HTML structure in `index.html` including a `<video>` element and control buttons. Add CSS in `style.css` for basic layout and responsiveness. In `main.js`, write JavaScript to request camera access using `getUserMedia`, display the stream in the video element, and handle start/stop button functionality.",
+			"reasoning": "The core files (`index.html`, `style.css`, `main.js`) are present but empty of relevant content. This task involves adding foundational HTML for video and controls, CSS for basic styling and responsiveness, and JavaScript for WebRTC camera access and UI interaction. It's a common pattern but requires careful handling of permissions and error states."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "TensorFlow.js Integration & Object Detection Model Loading",
+			"complexityScore": 3,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Modify `package.json` to include `@tensorflow/tfjs` and `@tensorflow-models/coco-ssd`. In `main.js`, write an asynchronous function to load the COCO-SSD model, displaying a 'Loading AI Model...' message in the UI (e.g., a `div` element) until the model is ready, then update the message to 'Model Loaded'.",
+			"reasoning": "This is a standard TensorFlow.js integration. It involves adding dependencies via npm, then writing asynchronous JavaScript to load the model. The main complexity lies in ensuring the correct model is chosen and handling the asynchronous nature of loading with appropriate UI feedback. The `package.json` is currently empty of these dependencies."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Real-time Object Detection Pipeline Implementation",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "In `index.html`, add a `<canvas>` element overlaid on the `<video>` element. In `main.js`, create a `detectFrame` function that uses `requestAnimationFrame` to continuously capture frames from the video. Inside this function, call `model.detect()` with the video element, process the predictions, log object details to the console, and draw basic red bounding boxes on the canvas for each detected object.",
+			"reasoning": "This task is central to the application. It involves setting up a continuous processing loop (e.g., using `requestAnimationFrame`), feeding video frames to the loaded TensorFlow.js model, and then interpreting and visualizing the results. Drawing bounding boxes on a canvas requires careful coordinate mapping and can impact performance if not optimized. All related code will be greenfield development within `main.js` and `index.html`."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Reference Object Recognition & Pixel-to-MM Calibration",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Create a `calibration.js` module or section in `main.js` to define known dimensions for reference objects (e.g., `creditCard: { widthMM: 85.6, heightMM: 53.98 }`). Within the detection loop, implement logic to check if a reference object (e.g., 'credit card' if COCO-SSD detects 'credit card' or 'rectangle' with specific aspect ratio) is present. If detected, calculate its pixel dimensions from the bounding box and derive a `mmPerPixel` conversion factor, storing it in a global variable or state object.",
+			"reasoning": "This task introduces a critical calibration step. It requires defining specific reference objects and their real-world dimensions, then implementing logic to identify these objects within the AI model's detections. Calculating a stable `mm/pixel` ratio from potentially noisy bounding box data, especially across different camera distances and angles, can be challenging and may require some averaging or filtering. This is entirely greenfield development."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Dynamic Volume Estimation (Reference-based)",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "In `main.js`, create a function `estimateVolume(objectDetection, mmPerPixel)` that takes a detected object and the `mmPerPixel` ratio. Inside this function, convert the bounding box pixel dimensions to real-world millimeters. Implement a simplified volume estimation logic, for example, assuming objects are cuboids and using a heuristic (e.g., `depth = width * 0.5` or `depth = height * 0.7` based on object class) to estimate the third dimension, then calculate and return the volume in cubic millimeters or cubic centimeters.",
+			"reasoning": "This task builds directly on the `mm/pixel` calibration. While converting 2D pixel dimensions to real-world dimensions is straightforward, estimating the third dimension (depth/height) for volume calculation from a single 2D camera view is inherently an approximation and requires developing reasonable heuristics based on object class or assumed shapes. This will likely involve some trial and error to get acceptable results. This is greenfield development."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Dynamic Volume Estimation (Fallback - Standard/Average)",
+			"complexityScore": 4,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Create a `fallbackData.js` file or section in `main.js` to define a JavaScript object containing fallback volume estimates for common food items (e.g., 'apple': 150 cm³) and non-food items (e.g., 'cup': 300 cm³). Modify the volume estimation logic to first check if a `mmPerPixel` ratio is available. If not, use the `object.class` to look up and apply the corresponding fallback volume from the `fallbackData`.",
+			"reasoning": "This task provides a necessary fallback mechanism. It involves creating a static data structure (e.g., a JSON object or a JS module) to store predefined average volumes for various object types. The implementation then needs to conditionally apply these fallback values when the primary reference-based calibration (from Task 4) is not available, which is a straightforward conditional logic. This is greenfield development."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Object Type Classification (Food/Non-Food/Living)",
+			"complexityScore": 3,
+			"recommendedSubtasks": 2,
+			"expansionPrompt": "Create a `objectTypeMapping.js` file or section in `main.js` defining a JavaScript object that maps COCO-SSD class names (e.g., 'apple', 'cup', 'person') to their respective types ('food', 'non-food', 'living'). Implement a function `classifyObjectType(className)` that takes a COCO-SSD class name and returns its type, defaulting to 'non-food' or 'unknown' for unmapped classes.",
+			"reasoning": "This is a relatively simple data mapping task. It involves creating a JavaScript object or a JSON file that maps the class names returned by the COCO-SSD model to the custom categories ('food', 'non-food/material', 'living organism'). The logic to perform this lookup and handle unknown classes is direct. This is greenfield development."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "External API Integration: Food Calorie Data (식품의약품안전처)",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Create an `apiService.js` module. Implement an asynchronous function `fetchFoodNutrients(foodName)` that constructs a request to the 식품의약품안전처 API (you'll need to find the specific endpoint and API key requirements). Use `fetch` to make the request, parse the JSON response to extract calories, carbs, protein, and fat per 100g. Implement a simple in-memory cache (e.g., a Map object) to store and retrieve frequently requested food data.",
+			"reasoning": "Integrating with an external API, especially a government one, can be complex due to potential authentication requirements (API keys), specific request formats, and potentially inconsistent or verbose JSON responses. Implementing robust error handling for network issues and API-specific errors, along with a basic caching mechanism to reduce redundant requests, adds significant complexity. This is entirely greenfield development."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Internal Data Management: Non-Food Calorie & Density Data",
+			"complexityScore": 3,
+			"recommendedSubtasks": 2,
+			"expansionPrompt": "Create a `data.js` file. Define a JavaScript object within this file that contains: 1) An array or object of reference objects with their known dimensions. 2) A mapping from COCO-SSD non-food class names (e.g., 'bottle', 'cup') to material types (e.g., 'plastic', 'ceramic'). 3) An object mapping material types to their properties (e.g., `plastic: { densityG_cm3: 0.95, theoreticalKcal_g: 11.0 }`). Ensure this data is easily importable into `main.js`.",
+			"reasoning": "This task is primarily data definition. It involves creating a structured JavaScript object or JSON file to store static data like reference object dimensions, material mappings, and material properties. The complexity is low as it's about organizing known data rather than complex logic. This is entirely greenfield development."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Calorie & Nutrient Calculation (Food Items)",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "In `main.js`, create a function `calculateFoodNutrients(objectDetection, estimatedVolumeCm3)` that takes a detected food object and its estimated volume. Inside this function, use the `fetchFoodNutrients` utility (from Task 8) to get 100g nutritional data. Assume an average food density (e.g., 1 g/cm³) to convert volume to total weight. Then, scale the 100g nutritional data to calculate the total calories, carbs, protein, and fat for the detected food item. Return these calculated values.",
+			"reasoning": "This task involves combining data from multiple previous steps: estimated volume and external API nutritional data. The core calculation is arithmetic, but ensuring correct unit conversions (e.g., mm³ to cm³ to grams), handling cases where API data might be missing or incomplete, and integrating these different data sources into a cohesive calculation function adds moderate complexity. This is greenfield development."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Calorie Calculation (Non-Food/Living Items)",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "In `main.js`, create a function `calculateNonFoodCalories(objectDetection, estimatedVolumeCm3)` that takes a detected non-food/living object and its estimated volume. Use the `objectTypeMapping` (from Task 7) and `data.js` (from Task 9) to determine the object's material type and retrieve its density and theoretical calories per gram. Calculate the total weight from volume and density, then calculate the theoretical total calories. Return this value, and 'N/A' for other nutrients.",
+			"reasoning": "This task is similar in structure to Task 10 but uses internal, predefined data for material properties. It involves looking up the material type based on the object class, then using the material's density and theoretical calorie per gram to calculate the total theoretical calories. The complexity is moderate due to data integration and unit conversions. This is greenfield development."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "AR Visualization - Label Rendering",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "In `main.js`, create a `renderLabel(objectDetection, calculatedData)` function. This function should dynamically create a `div` element for each detected object, populate it with the object's name, estimated calories, and macronutrients (from Tasks 10/11). Add a unique ID or class to each label `div`. In `style.css`, add basic styling for these labels (e.g., background, text color, font size, padding) to make them readable and visually distinct. Initially, position them absolutely within a container.",
+			"reasoning": "This task involves dynamically creating and populating HTML elements (`div`s) for each detected object. While creating a single label is straightforward, managing multiple labels, ensuring they are correctly updated or removed as objects appear and disappear, and applying readable and distinct styling adds moderate complexity to the DOM manipulation. This is greenfield development within existing `main.js` and `style.css`."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "AR Visualization - Real-time Label Positioning & Tracking",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Enhance the `detectFrame` function in `main.js`. For each detected object, calculate the screen coordinates for its bounding box. Update the `style.transform` (or `top`/`left`) properties of the corresponding AR label `div` (created in Task 12) to position it accurately over the object. Implement a basic smoothing algorithm (e.g., linear interpolation) for the label's position updates to reduce jitter. Ensure the label positioning is responsive to video scaling.",
+			"reasoning": "This is one of the more complex AR visualization tasks. It requires continuously updating the position of HTML elements (labels) to match the real-time movement of detected objects. This involves careful mapping of canvas/video coordinates to DOM element positions, ensuring smooth transitions (e.g., using CSS transforms or interpolation) to prevent jitter, and optimizing the update process to maintain a high frame rate, especially with multiple moving objects. This is greenfield development, integrating with the existing `detectFrame` loop."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Performance Optimization & Cross-Browser Compatibility",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Conduct a performance audit using browser developer tools (Lighthouse, Performance tab) to identify CPU and memory bottlenecks in the `detectFrame` loop and AR label updates. Implement at least two optimizations: 1) Investigate using Web Workers for TensorFlow.js inference to offload heavy computation from the main thread. 2) Optimize DOM manipulation for AR labels, potentially using `will-change` CSS property or `requestAnimationFrame` for all visual updates. Thoroughly test the application on Chrome, Safari (iOS), and Firefox, addressing any compatibility issues and aiming for a consistent 10 FPS.",
+			"reasoning": "This is a high-complexity task because it's an optimization effort that touches almost every part of the application. Identifying bottlenecks requires systematic profiling using browser developer tools. Implementing solutions like Web Workers for heavy tasks, optimizing TensorFlow.js inference (e.g., model quantization, batching), and streamlining DOM updates can be intricate. Ensuring compatibility and performance across multiple browsers (Chrome, Safari, Firefox) often reveals browser-specific quirks and requires careful testing and potential workarounds. This will involve significant refactoring and greenfield additions."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Error Handling, User Feedback & Privacy Compliance",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Implement comprehensive error handling in `main.js` for camera access (`getUserMedia`), TensorFlow.js model loading, and external API calls (Task 8) using `try-catch` blocks. Display user-friendly error messages in a dedicated UI element (e.g., a status `div`). Add status messages (e.g., 'Initializing camera...', 'Loading AI model...', 'Calibrating...') to guide the user. In `index.html`, add a section for a clear and concise privacy statement explaining how image data is handled (e.g., 'All image processing occurs locally on your device. No image data is sent to servers.').",
+			"reasoning": "This task involves implementing robust error handling across all critical asynchronous operations (camera access, model loading, API calls) and user interactions. This requires careful placement of `try-catch` blocks and conditional logic. Additionally, designing clear and user-friendly feedback messages for various states and errors, and drafting a comprehensive privacy statement, requires both technical implementation and attention to user experience and legal considerations. This will involve modifying existing and newly added code."
+		}
+	]
+}

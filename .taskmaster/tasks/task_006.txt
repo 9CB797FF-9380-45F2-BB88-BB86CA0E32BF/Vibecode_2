@@ -1,0 +1,31 @@
+# Task ID: 6
+# Title: Dynamic Volume Estimation (Fallback - Standard/Average)
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Implement fallback volume estimation for cases where no reference object is detected. Use 'standard 1-person portion' for food items and pre-defined average sizes for non-food items.
+# Details:
+Create an internal data structure (e.g., JSON) mapping common food items to a standard portion volume and common non-food items to an average volume. If no `mm/pixel` ratio is available, use these fallback values.
+
+# Test Strategy:
+Test with food items (e.g., an apple) and non-food items (e.g., a mug) without a reference object; verify fallback volumes are applied and reasonable.
+
+# Subtasks:
+## 1. Design and Create User Database Schema [pending]
+### Dependencies: None
+### Description: Define and create the necessary database tables to store user information, including credentials and profile data.
+### Details:
+Create a 'users' table with columns: id (PK, serial), email (varchar, unique, not null), password_hash (varchar, not null), created_at (timestamp), and updated_at (timestamp). Use a migration tool like Alembic or Flyway to script the changes.
+
+## 2. Implement User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Develop a public API endpoint (e.g., POST /api/register) to allow new users to create an account.
+### Details:
+The endpoint should accept an email and password. It must validate the input (e.g., valid email format, password complexity). Hash the password using bcrypt before storing it in the 'users' table. Return a success response or appropriate error codes (e.g., 400 for invalid input, 409 for duplicate email).
+
+## 3. Develop User Login and JWT Issuance Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (e.g., POST /api/login) for users to authenticate and receive a JSON Web Token (JWT).
+### Details:
+The endpoint should accept an email and password. It will retrieve the user by email, verify the provided password against the stored hash using bcrypt. If authentication is successful, generate a signed JWT containing the user ID and an expiration claim. Return the JWT in the response body.
+

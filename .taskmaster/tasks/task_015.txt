@@ -1,0 +1,43 @@
+# Task ID: 15
+# Title: Error Handling, User Feedback & Privacy Compliance
+# Status: pending
+# Dependencies: 14
+# Priority: medium
+# Description: Implement robust error handling for all critical components, provide clear user feedback for various states, and ensure compliance with privacy requirements.
+# Details:
+Add error boundaries/try-catch blocks for camera access, model loading, API calls, and data processing. Display user-friendly messages for errors (e.g., 'Camera access denied', 'API unavailable'). Provide status updates (e.g., 'Calibrating...', 'Detecting...'). Add a clear privacy statement regarding image data handling.
+
+# Test Strategy:
+Simulate errors (e.g., deny camera, block API calls); verify appropriate error messages are displayed. Check for clear status messages during operation. Review privacy statement for clarity and accuracy.
+
+# Subtasks:
+## 1. Design User Database Schema [pending]
+### Dependencies: None
+### Description: Define the database table structure for storing user information, including email, hashed password, and other relevant fields required for authentication.
+### Details:
+Create a `users` table with columns: `id` (PK, auto-increment), `email` (VARCHAR, UNIQUE, NOT NULL), `password_hash` (VARCHAR, NOT NULL), `created_at` (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP), `updated_at` (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP). Consider appropriate indexing for `email`.
+
+## 2. Implement User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Develop an API endpoint (e.g., `/api/register`) that allows new users to sign up by providing an email and password. This involves input validation, password hashing, and saving user data to the database.
+### Details:
+Endpoint: POST /api/register. Request body: { email: 'user@example.com', password: 'securepassword' }. Use bcrypt for password hashing. Validate email format and password strength (e.g., min length, special chars). Handle duplicate email registration by returning a 409 Conflict error. Return a 201 Created status on success.
+
+## 3. Implement JWT Token Generation and Verification Logic [pending]
+### Dependencies: None
+### Description: Develop the core utility functions for generating and verifying JSON Web Tokens (JWTs) to be used for user authentication.
+### Details:
+Create functions: `generateToken(userId, expiresIn)` which signs a JWT with the user ID and an expiration time, and `verifyToken(token)` which decodes and validates a given JWT. Use a strong, environment-variable-stored secret key. Handle token expiration and invalid signatures.
+
+## 4. Implement User Login API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (e.g., `/api/login`) that authenticates users based on their email and password, and generates a JWT token upon successful login.
+### Details:
+Endpoint: POST /api/login. Request body: { email: 'user@example.com', password: 'securepassword' }. Retrieve user by email from the database. Compare provided password with stored hash using bcrypt. If credentials are valid, use `generateToken` (from subtask 3) to create a JWT and return it in the response body. Return 401 Unauthorized for invalid credentials.
+
+## 5. Create Authentication Middleware for Protected Routes [pending]
+### Dependencies: None
+### Description: Develop a middleware function that intercepts requests to protected API routes, verifies the JWT token in the request header, and attaches user information to the request object if valid.
+### Details:
+The middleware should check for an `Authorization` header with a `Bearer <token>`. Extract the token and use `verifyToken` (from subtask 3) to validate it. If valid, decode the user ID and attach it to `req.user` (or similar). If invalid, missing, or expired, return a 401 Unauthorized error and prevent further processing of the request.
+

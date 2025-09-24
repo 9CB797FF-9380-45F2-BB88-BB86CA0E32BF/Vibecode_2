@@ -1,0 +1,49 @@
+# Task ID: 14
+# Title: Performance Optimization & Cross-Browser Compatibility
+# Status: pending
+# Dependencies: 13
+# Priority: high
+# Description: Profile the entire recognition-analysis-display pipeline to identify and resolve bottlenecks, ensuring the service achieves at least 10 FPS and functions correctly across target browsers.
+# Details:
+Use browser developer tools to profile CPU and memory usage. Optimize AI inference (e.g., batching, model quantization), data processing, and DOM manipulation. Test thoroughly on Chrome, Safari (iOS), and Firefox to address any browser-specific issues or performance differences. Consider Web Workers for heavy tasks.
+
+# Test Strategy:
+Measure FPS consistently across different browsers and devices. Verify all features work as expected on Chrome, Safari (iOS), and Firefox, meeting the 10 FPS target.
+
+# Subtasks:
+## 1. Design User Database Schema [pending]
+### Dependencies: None
+### Description: Define the database table structure for storing user information, including fields for username, email, password hash, and roles.
+### Details:
+Use SQL DDL to create a `users` table. Include columns for `id` (PK, auto-increment), `username` (unique), `email` (unique), `password_hash`, `created_at`, `updated_at`. Consider indexing `username` and `email` for performance.
+
+## 2. Develop JWT Utility Functions [pending]
+### Dependencies: None
+### Description: Create helper functions for generating, signing, and verifying JSON Web Tokens (JWTs).
+### Details:
+Implement functions such as `generateToken(payload, secret, expiresIn)` and `verifyToken(token, secret)`. Use a robust JWT library (e.g., `jsonwebtoken` in Node.js, `PyJWT` in Python). Define a secure secret key, ideally loaded from environment variables.
+
+## 3. Implement User Registration API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`/api/register`) that allows new users to sign up. It should hash passwords before storing them in the database.
+### Details:
+Endpoint should accept `username`, `email`, and `password`. Validate input for format and strength. Use a strong hashing algorithm like bcrypt for password hashing. Store the hashed password in the `users` table. Return appropriate success/error responses.
+
+## 4. Implement User Login API Endpoint [pending]
+### Dependencies: None
+### Description: Create an API endpoint (`/api/login`) that authenticates users based on username/email and password, and issues a JWT upon successful login.
+### Details:
+Endpoint should accept `username` (or `email`) and `password`. Retrieve user from DB. Compare provided password with stored hash using bcrypt. If valid, use the JWT utility (Subtask 2) to generate a token containing user ID and roles. Return the JWT in the response.
+
+## 5. Implement JWT Authentication Middleware [pending]
+### Dependencies: None
+### Description: Create a middleware function that protects API routes by verifying the presence and validity of a JWT in the request header.
+### Details:
+The middleware should extract the token from the `Authorization: Bearer <token>` header. Use the JWT utility (Subtask 2) to verify the token. If valid, attach the decoded user information (e.g., `req.user`) to the request object and call `next()`. If invalid or missing, return a 401 Unauthorized error.
+
+## 6. Create a Sample Protected API Route [pending]
+### Dependencies: None
+### Description: Implement a simple API endpoint that is protected by the authentication middleware, demonstrating its functionality.
+### Details:
+Create an endpoint like `/api/profile` that requires authentication. Apply the JWT authentication middleware (Subtask 5) to this route. The route handler should access `req.user` to return user-specific data, proving the middleware successfully attached the user context.
+
